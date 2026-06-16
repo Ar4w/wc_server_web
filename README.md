@@ -48,7 +48,7 @@
 
 ### 1. Подготовка файловой системы (LittleFS)
 Веб-интерфейс хранится в файловой системе ESP32. Перед прошивкой кода необходимо загрузить файлы из папки `data/`.
-1. Установите плагин **ESP32 Sketch Data Upload** для Arduino IDE.
+1. Установите плагин **ESP32 Sketch Data Upload** для Arduino IDE. https://github.com/earlephilhower/arduino-littlefs-upload
 2. Убедитесь, что папка `data` (с файлами `index.html`, `style.css`, `script.js`) находится в корне проекта.
 3. В Arduino IDE выберите: `Инструменты` → `ESP32 Sketch Data Upload`.
 4. Дождитесь сообщения об успешной загрузке.
