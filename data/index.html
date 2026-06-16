@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WC Server Control</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+</head>
+<body>
+    <header>
+        <h1>💧 WC Server</h1>
+        <div class="status-bar">
+            <span id="wifi-status">🔌 WiFi: ...</span>
+            <span id="time-status">🕐 Time: ...</span>
+            <span id="eirc-status">☁️ EIRC: ...</span>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Показания счётчиков -->
+        <section class="card">
+            <h2>📊 Текущие показания</h2>
+            <div class="readings-grid">
+                <div class="reading-item hot">
+                    <label>🔥 Горячая вода</label>
+                    <div class="value" id="hot-value">--</div>
+                    <div class="unit">л (×10)</div>
+                </div>
+                <div class="reading-item cold">
+                    <label>❄️ Холодная вода</label>
+                    <div class="value" id="cold-value">--</div>
+                    <div class="unit">л (×10)</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button onclick="fetchReadings()">🔄 Обновить</button>
+                <button onclick="pushToEirc()" id="push-btn" disabled>📤 Отправить в ЕИРЦ</button>
+            </div>
+            <p class="hint">Значения в десятках литров. Для отправки в ЕИРЦ автоматически преобразуются в м³.</p>
+        </section>
+        
+        <!-- Установка значений -->
+        <section class="card">
+            <h2>⚙️ Установка показаний</h2>
+            <form id="set-form">
+                <div class="form-row">
+                    <label>Горячая (×10л):
+                        <input type="number" id="hot-input" min="0" required>
+                    </label>
+                    <label>Холодная (×10л):
+                        <input type="number" id="cold-input" min="0" required>
+                    </label>
+                </div>
+                <button type="submit">💾 Сохранить</button>
+            </form>
+            <p class="hint">Пример: если счётчик показывает 00145,765 → введите 14576</p>
+        </section>
+        
+        <!-- Статус ЕИРЦ -->
+        <section class="card" id="eirc-section">
+            <h2>🏢 МОСОБЛЕИРЦ</h2>
+            <div id="eirc-info">
+                <p>📅 Окно подачи: <span id="eirc-window">--</span></p>
+                <p>🔧 Поверка через: <span id="eirc-attorney">--</span> мес.</p>
+                <p>📮 Последняя отправка: <span id="last-sent">--</span></p>
+            </div>
+            <button onclick="fetchEircData()">🔄 Обновить данные ЕИРЦ</button>
+        </section>
+        
+        <!-- Настройки -->
+        <section class="card">
+            <h2>🔧 Настройки</h2>
+            <details>
+                <summary>WiFi конфигурация</summary>
+                <form id="wifi-form">
+                    <label>SSID: <input type="text" id="wifi-ssid" required></label>
+                    <label>Пароль: <input type="password" id="wifi-pass"></label>
+                    <button type="submit">💾 Сохранить и перезагрузить</button>
+                </form>
+            </details>
+            
+            <details>
+                <summary>ЕИРЦ конфигурация</summary>
+                <form id="eirc-form">
+                    <label>Логин: <input type="text" id="eirc-login" required></label>
+                    <label>Пароль: <input type="password" id="eirc-pass" required></label>
+                    <label>ID горячей воды: <input type="number" id="hot-id" required></label>
+                    <label>ID холодной воды: <input type="number" id="cold-id" required></label>
+                    <button type="submit">💾 Сохранить</button>
+                </form>
+            </details>
+            
+            <details>
+                <summary>Системные действия</summary>
+                <div class="system-actions">
+                    <button onclick="exportConfig()">📥 Экспорт конфигурации</button>
+                    <label class="file-upload">
+                        📤 Импорт конфигурации
+                        <input type="file" id="import-file" accept=".json" onchange="importConfig(this)">
+                    </label>
+                    <button onclick="resetConfig()" class="danger">⚠️ Сброс настроек</button>
+                    <button onclick="restartDevice()" class="danger">🔄 Перезагрузка</button>
+                </div>
+            </details>
+        </section>
+        
+        <!-- Лог -->
+        <section class="card">
+            <h2>📋 Статус системы</h2>
+            <pre id="system-log">Загрузка...</pre>
+        </section>
+    </main>
+    
+    <footer>
+        <p>WC Server v2.0 | <a href="https://github.com/Ar4w/wc_server" target="_blank">GitHub</a></p>
+    </footer>
+    
+    <script src="/script.js"></script>
+</body>
+</html>

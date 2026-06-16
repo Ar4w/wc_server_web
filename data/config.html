@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Настройка WC Server</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #333; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { background: #fff; padding: 30px 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 600px; }
+        h1 { text-align: center; color: #1976D2; margin-top: 0; font-size: 26px; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 16px; color: #444; }
+        input { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #e0e0e0; border-radius: 10px; box-sizing: border-box; transition: border-color 0.2s; background: #fafafa; }
+        input:focus { border-color: #1976D2; outline: none; background: #fff; }
+        button { width: 100%; padding: 16px; font-size: 18px; font-weight: bold; color: #fff; background: #1976D2; border: none; border-radius: 10px; cursor: pointer; margin-top: 15px; transition: background 0.2s; }
+        button:active { background: #1565C0; transform: scale(0.98); }
+        .hint { font-size: 13px; color: #777; margin-top: 6px; line-height: 1.4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💧 Настройка WC Server</h1>
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label>📶 Имя сети Wi-Fi (SSID)</label>
+                <input type="text" name="ssid" placeholder="Например: Home_WiFi" required>
+            </div>
+            <div class="form-group">
+                <label>🔒 Пароль Wi-Fi</label>
+                <input type="password" name="pass" placeholder="Пароль от Wi-Fi">
+            </div>
+            <div class="form-group">
+                <label>👤 Логин МОСОБЛЕИРЦ (телефон)</label>
+                <input type="text" name="eirc_login" placeholder="+7..." required>
+            </div>
+            <div class="form-group">
+                <label>🔑 Пароль МОСОБЛЕИРЦ</label>
+                <input type="password" name="eirc_pass" required>
+            </div>
+            <div class="form-group">
+                <label>🔥 ID счётчика горячей воды</label>
+                <input type="number" name="hot_id" placeholder="Числовой ID из кабинета" required>
+            </div>
+            <div class="form-group">
+                <label>❄️ ID счётчика холодной воды</label>
+                <input type="number" name="cold_id" placeholder="Числовой ID из кабинета" required>
+            </div>
+            <p class="hint">💡 Чтобы узнать ID счётчиков, используйте скрипт <code>get_data_from_eirc.py</code> на компьютере или найдите их в личном кабинете.</p>
+            <button type="submit">💾 Сохранить и перезагрузить</button>
+        </form>
+    </div>
+</body>
+</html>
