@@ -1,6 +1,7 @@
 #include "webserver.h"
 #include "config.h"
 #include "storage.h"
+#include "counter.h"
 #include "mosobleirc.h"
 #include <LittleFS.h>
 #include <time.h>
@@ -58,16 +59,31 @@ void WebInterface::_handleReadings(AsyncWebServerRequest* r) {
 
 void WebInterface::_handleSet(AsyncWebServerRequest* r) {
     if (!r->hasParam("hot", true) || !r->hasParam("cold", true)) {
-        r->send(400, "text/plain", "Missing"); return;
+        r->send(400, "text/plain", "Missing parameters"); 
+        return;
     }
-    g_hot_value = r->getParam("hot", true)->value().toInt();
-    g_cold_value = r->getParam("cold", true)->value().toInt();
+    
+    uint32_t new_hot = r->getParam("hot", true)->value().toInt();
+    uint32_t new_cold = r->getParam("cold", true)->value().toInt();
+    
+    g_hot_value = new_hot;
+    g_cold_value = new_cold;
     g_values_changed = true;
+    
+    if (counters) {
+        counters->setHotValue(new_hot);
+        counters->setColdValue(new_cold);        
+        counters->acknowledgeHot();
+        counters->acknowledgeCold();
+    }
+
     Storage s;
     if (s.begin(NVS_NAMESPACE)) {
         s.saveReadings(g_hot_value, g_cold_value, g_last_sent_date);
         s.end();
     }
+    
+    ESP_LOGI(LOG_TAG, "✅ Manual set OK: Hot=%u, Cold=%u", g_hot_value, g_cold_value);
     r->send(200, "text/plain", "OK");
 }
 

@@ -14,11 +14,20 @@
 #define LOG_LEVEL ESP_LOG_INFO
 #define LOG_TAG "WC_SERVER"
 
-class AsyncWebServer; class DNSServer; class Mosobleirc;
-extern AsyncWebServer* webServer; extern DNSServer* dnsServer;
-extern Mosobleirc* eirc; extern uint32_t g_hot_value;
-extern uint32_t g_cold_value; extern uint32_t g_last_sent_date;
-extern bool g_values_changed; extern bool g_configured;
+class AsyncWebServer; 
+class DNSServer; 
+class Mosobleirc;
+class CounterManager; 
+
+extern AsyncWebServer* webServer; 
+extern DNSServer* dnsServer;
+extern Mosobleirc* eirc;
+extern CounterManager* counters;
+extern uint32_t g_hot_value;
+extern uint32_t g_cold_value; 
+extern uint32_t g_last_sent_date;
+extern bool g_values_changed; 
+extern bool g_configured;
 extern bool g_is_eirc_fetching;
 extern bool g_eirc_dry_run; // Флаг тестового режима (true = только лог, без реальной отправки)
 extern bool g_initial_fetch_done;
